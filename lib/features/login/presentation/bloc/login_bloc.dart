@@ -7,6 +7,8 @@ import 'package:e_commerce_clean_architecture/features/login/domain/usecases/log
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../core/enums/enums.dart';
+
 part 'login_event.dart';
 part 'login_state.dart';
 
@@ -17,14 +19,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       // TODO: implement event handler
     });
     on<LoginButtonEvent>((event, emit)async {
-      emit(state.copyWith(status: ScreenStatus.loading));
+      emit(state.copyWith(status: RequestStatus.loading));
      // var result=await loginUseCase.call(event.email, event.password);  OR
       var result=await loginUseCase(event.email, event.password);
       
       result.fold((l) {
-        emit(state.copyWith(status: ScreenStatus.failure,failure: l));
+        emit(state.copyWith(status: RequestStatus.failure,failure: l));
       } , (r) {
-        emit(state.copyWith(status: ScreenStatus.success,responseEntity: r));
+        emit(state.copyWith(status: RequestStatus.success,responseEntity: r));
 
       });
 

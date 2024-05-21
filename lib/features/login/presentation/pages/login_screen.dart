@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/routes/app_router.dart';
+import '../../../../core/enums/enums.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_images.dart';
 import '../../../../core/utils/app_strings.dart';
@@ -25,13 +26,13 @@ class LoginScreen extends StatelessWidget {
           LoginBloc(LoginUseCase(LoginRepoImpl(LoginRemoteDsImpl()))),
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
-               if(state.status==ScreenStatus.loading){
+               if(state.status==RequestStatus.loading){
                  showDialog(context: context, builder:(context)=> AlertDialog(
                    title: Center(child: CircularProgressIndicator()),
                  ));
-               }else if(state.status==ScreenStatus.success){
+               }else if(state.status==RequestStatus.success){
                  Navigator.pushNamedAndRemoveUntil(context, AppRoutesName.home , (route) => false);
-               }else if(state.status==ScreenStatus.failure){
+               }else if(state.status==RequestStatus.failure){
                  showDialog(context: context, builder:(context)=> AlertDialog(
                    title: Text("Error"),
                    content:Text(state.failure?.message??"") ,
@@ -213,8 +214,8 @@ class LoginScreen extends StatelessWidget {
                       padding: EdgeInsets.only(left: 17.w, right: 15.w),
                       child: ElevatedButton(
                           onPressed: () {
-                            BlocProvider.of<LoginBloc>(context).add(LoginButtonEvent(emailController.text.trim(),
-                                passwordController.text.trim()));
+                            BlocProvider.of<LoginBloc>(context).add(LoginButtonEvent("ahmedmutti@gmail.com",
+                                "Ahmed@123"));
                             // LoginBloc.get(context).add(LoginButtonEvent());
                           },
                           child: Padding(
@@ -239,7 +240,7 @@ class LoginScreen extends StatelessWidget {
                       child: Center(
                           child: InkWell(
                               onTap: () {
-                                // Navigator.pushNamed(context, AppRoute.signUp);
+                                 Navigator.pushNamedAndRemoveUntil(context, AppRoutesName.signUp,(route) => false,);
                               },
                               child: Text.rich(TextSpan(children: [
                                 TextSpan(

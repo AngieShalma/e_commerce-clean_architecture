@@ -1,15 +1,15 @@
 part of 'login_bloc.dart';
-enum ScreenStatus { loading, init, success, failure }
+
 
 @immutable
 class LoginState {
- ScreenStatus? status;
+ RequestStatus? status;
  ResponseEntity? responseEntity;
  Failure? failure;
 
  LoginState({this.responseEntity, this.failure, this.status});
 
- LoginState copyWith({ScreenStatus? status,
+ LoginState copyWith({RequestStatus? status,
    ResponseEntity? responseEntity,
    Failure? failure}) {
   return LoginState(
@@ -19,6 +19,6 @@ class LoginState {
  }
 }
   class LoginInitialState extends LoginState {
-   LoginInitialState():super(status: ScreenStatus.init);
+   LoginInitialState():super(status: RequestStatus.init);
   }
 
